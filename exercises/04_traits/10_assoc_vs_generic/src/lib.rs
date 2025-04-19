@@ -13,6 +13,35 @@
 // You don't have to though: it's perfectly okay to write three separate
 // implementations manually. Venture further only if you're curious.
 
+trait Power<RHS = Self> {
+    fn power(self, n: RHS) -> Self;
+}
+
+impl Power for u32 {
+    fn power(self, mut n: u32) -> u32 {
+	let mut result = 1;
+
+	while n > 0 {
+	    result *= self;
+	    n -= 1;
+	}
+
+	result
+    }
+}
+
+impl Power<u16> for u32 {
+    fn power(self, n: u16) -> u32 {
+	self.power(n as u32)
+    }
+}
+
+impl Power<&u32> for u32 {
+    fn power(self, n: &u32) -> u32 {
+	self.power(*n)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::Power;
